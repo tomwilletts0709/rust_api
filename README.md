@@ -1,10 +1,10 @@
 # Rust API – Book Store
 
-A Rust API using [Diesel](https://diesel.rs) and PostgreSQL for a simple book store backend.
+A Rust API using [Rocket](https://rocket.rs), [Diesel](https://diesel.rs), and PostgreSQL for a simple book store backend. Serves static files from `public/` and uses r2d2 for connection pooling.
 
 ## Prerequisites
 
-- [Rust](https://rustup.rs)
+- [Rust](https://rustup.rs) (Rocket 0.4 requires nightly: `rustup default nightly`)
 - [PostgreSQL](https://www.postgresql.org/) (or [Postgres.app](https://postgresapp.com/) on macOS)
 
 ## Setup
@@ -40,18 +40,25 @@ cd api
 cargo run
 ```
 
+Server runs at `http://localhost:8000` by default. Serves `public/index.html` at `/`.
+
+> **Note:** Rocket 0.4 uses proc macros that require Rust nightly. If the build fails with a Pear/nightly error, run `rustup default nightly` first.
+
 ## Project Structure
 
 ```
 rust_api/
 ├── api/
 │   ├── src/
-│   │   ├── main.rs      # Entry point
-│   │   ├── models.rs    # Book model and CRUD operations
-│   │   └── schema.rs    # Diesel schema (auto-generated)
-│   ├── migrations/     # SQL migrations
+│   │   ├── main.rs        # Rocket entry point
+│   │   ├── models.rs      # Book model and CRUD operations
+│   │   ├── schema.rs      # Diesel schema (auto-generated)
+│   │   ├── db.rs          # r2d2 connection pool and Conn guard
+│   │   └── static_files.rs # Static file routes
+│   ├── public/            # Static assets (index.html, etc.)
+│   ├── migrations/       # SQL migrations
 │   └── Cargo.toml
-├── .env                 # DATABASE_URL (not committed)
+├── .env                   # DATABASE_URL (not committed)
 └── README.md
 ```
 

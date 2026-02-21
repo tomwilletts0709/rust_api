@@ -3,7 +3,7 @@ use diesel::pg::PgConnection;
 
 use crate::schema::books;
 
-#[derive(Queryable)]
+#[derive(Queryable, Debug, Clone)]
 pub struct Book {
     pub id: i32,
     pub title: String,
